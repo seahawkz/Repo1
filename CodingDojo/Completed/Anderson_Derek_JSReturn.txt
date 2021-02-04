@@ -1,0 +1,10 @@
+1.  Dojo
+2.  result is 15
+3.  result is 18
+4.  15 10 10 15
+5.  15 10 20 15
+6.  3 6 5 10 16
+7.  2 3 5 3 5 8
+8.  2 5 3 8
+9.  5 8 13
+10.  sum is 5 sum is 3 sum is 6 sum is 3 sum is 5 sum is 8 result is 19

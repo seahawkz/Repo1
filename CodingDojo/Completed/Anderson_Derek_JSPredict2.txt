@@ -1,0 +1,4 @@
+auntContactInfo = Paula Smith 1234 Main Street St. Louis MO 12345
+var produce = apples, oranges
+var frozen = broccoli, ice cream, hashbrowns
+movieLibrary = Bambi, Beetlejuice, Toy Story, Zoro
