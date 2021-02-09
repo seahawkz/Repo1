@@ -1,0 +1,109 @@
+<!-- , div,  ul, li, table (including thead, td, tbody, tr). -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>My Fake Blog</title>
+        <meta name="description" content="This is a fake blog page for coding dojo">
+        <style>
+            body {
+                background-color: aqua;
+            }
+            h1 {
+                font-style: oblique; color: purple;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Derek Anderson's Fake Blog</h1>
+        <img src="https://image.slidesharecdn.com/codingdojo-110522181933-phpapp02/95/coding-dojo-1-728.jpg?cb=1309714116" alt="coding dojo" height="300">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mollis quis augue ut sagittis. Morbi eget augue diam. In dui ipsum, fermentum vel est eu, malesuada imperdiet leo. Nulla facilisi. Pellentesque velit mi, porta et lacus eget, pulvinar tincidunt sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus vulputate enim diam, ut eleifend quam molestie at. Pellentesque ut pharetra
+        </p>
+        <p>
+            Aliquam erat volutpat. Sed ullamcorper odio id dapibus hendrerit. Ut facilisis ipsum sit amet ante varius elementum. Nulla semper, erat non gravida vehicula, urna odio ullamcorper libero, ac facilisis ante neque at erat. Morbi rhoncus, sapien sit amet scelerisque sodales, mauris justo ultrices tortor, commodo aliquam nibh augue eget neque. Proin iaculis felis vitae hendrerit efficitur. Nunc fermentum, turpis id bibendum ornare, velit mauris ultrices enim, id posuere metus massa ac lorem. Phasellus aliquam, nunc non condimentum auctor, ipsum elit bibendum leo, vitae malesuada eros enim sed velit. Aenean ultricies sed nisl volutpat volutpat. Ut dapibus laoreet ultrices. Ut ligula nisl, mollis at varius nec, vestibulum ut mauris. Proin vel imperdiet ex, ut tincidunt sapien. Sed vulputate purus eros, quis porta ligula lacinia in.
+        </p>
+        <p>
+            Pellentesque luctus, odio non ultrices fermentum, neque lorem lobortis lorem, eget porttitor nisl nunc vel lectus. Vestibulum rutrum tortor ut eros fringilla consectetur. Mauris fringilla elit et luctus pharetra. Etiam sed odio sodales, consequat ligula quis, aliquet quam. Mauris sodales pharetra mi nec aliquet. Curabitur pharetra vulputate libero, ac cursus elit vulputate et. Proin ut pellentesque urna, et laoreet neque. Sed id nunc elementum, ultricies risus a, placerat urna.
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Champion</th>
+                    <th>MVP</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1990</td>
+                    <td>1991</td>
+                    <td>1992</td>
+                </tr>
+                <tr>
+                    <td>SEA</td>
+                    <td>CHI</td>
+                    <td>PHI</td>
+                </tr>
+                <tr>
+                    <td>Johnson</td>
+                    <td>Jackson</td>
+                    <td>Smith</td>
+                </tr>
+            </tbody>
+        </table><br>
+        <ul>
+            <li>Item1</li>
+            <li>Item2</li>
+            <li>Item3</li>
+        </ul>
+        <a href="https://codingdojo.com">Not a virus, click me now!</a>
+        <form action="process.php" method="POST">
+            <p>Please take this short survey</p><br>
+            <label for="email" style="float: left; width: 10em; margin-right: -5em;">Email:</label>
+            <input type="text" id="email" name="email"><br>
+            <br>
+            <label for="language">Prefered Language</label>
+            <select name="language" id="language">
+                <option value="english">English</option>
+                <option value="french">French</option>
+                <option value="spanish">Spanish</option>
+                <option value="german#">German</option>
+            </select><br><br>
+            <div>What are your favorite colors? (select up to 3)</div>
+
+            <label for="blue" style="float: left; width: 10em; margin-right: -5em;">Blue</label>
+            <input type="checkbox" id="blue" name="color" value="blue"><br>
+
+            <label for="green" style="float: left; width: 10em; margin-right: -5em;">Green</label>
+            <input type="checkbox" id="green" name="color" value="green"><br>
+
+            <label for="red" style="float: left; width: 10em; margin-right: -5em;">Red</label>
+            <input type="checkbox" id="red" name="color" value="red"><br>
+            
+            <label for="black" style="float: left; width: 10em; margin-right: -5em;">Black</label>
+            <input type="checkbox" id="black" name="color" value="black"><br>
+
+            <label for="purple" style="float: left; width: 10em; margin-right: -5em;">Purple</label>
+            <input type="checkbox" id="purple" name="color" value="purple"><br>
+
+            <label for="yellow" style="float: left; width: 10em; margin-right: -5em;">Yellow</label>
+            <input type="checkbox" id="yellow" name="color" value="yellow"><br>
+            <br>
+            <p>What is your gender?</p>
+
+            <label for="male">Male</label>
+            <input type="radio" id="male" name="gender" value="male">
+            
+            <label for="female">Female</label>
+            <input type="radio" id="female" name="gender" value="female">
+            
+            <label for="other">Other</label>
+            <input type="radio" id="other" name="gender" value="other"><br>
+            <br>
+            <input type="submit" value="Submit">
+
+
+        </form>
+
+
+    </body>
