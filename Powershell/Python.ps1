@@ -11,6 +11,10 @@ pip install pyserial
 ## install urllib3
 pip install urllib3
 ##
+## Create Firewall Rules
+New-NetFirewallRule -DisplayName "Port 8080" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow
+New-NetFirewallRule -Program "C:\Program Files\Python39\python.exe" -Action Allow -Profile Private, Public -DisplayName "InboundPython" -Direction Inbound
+New-NetFirewallRule -Program "C:\Program Files\Python39\python.exe" -Action Allow -Profile Private, Public -DisplayName "OutboundPython" -Direction Outbound
 
 Start-Process -FilePath .\Git-2.30.0.2-64-bit.exe -ArgumentList '/VERYSILENT' -Wait
 
