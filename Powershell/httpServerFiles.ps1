@@ -3,7 +3,7 @@
   This script will downloaded the current .bin files needed for the commodity lifecycle project
 
 .NOTES
-  Version:        1.0
+  Version:        2.0
   Author:         Derek Anderson
   Creation Date:  2/19/2021
   Purpose/Change: Initial script development
@@ -11,9 +11,30 @@
 #>
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
-## Make new directory
-New-Item .\httpServerFiles\MD5Files -ItemType Directory
+## Make new directories
+##
+New-Item .\golden-standard-csvs -ItemType Directory
+New-Item .\jsonfiles -ItemType Directory
+New-Item .\logfiles -ItemType Directory
+## Create virtual environment
+python -m venv .\POIT-toolkit-venv --upgrade-deps
+##
+##activate the virtual environment 
+.\POIT-toolkit-venv\Scripts\activate
+##
+## Update PIP
+python -m pip install --upgrade pip
+##
+pip install netmiko
+##
+pip install pyserial
+##
+pip install urllib3
+##
+pip install PySimpleGUI
+##
 ## Create md5 test files
+New-Item .\httpServerFiles\MD5Files -ItemType Directory
 Set-Location .\httpServerFiles
 New-Item .\MD5Files\ref1.md5 -ItemType File -Value "97F3F447B88F75B8CE8B1B2CB9C7344E"
 New-Item .\MD5Files\ref2.md5 -ItemType File -Value "EFB93F376DA258335360F0BBB85DE3F8"
