@@ -1,9 +1,9 @@
 ﻿<#
 .DESCRIPTION
-  This script will downloaded the current .bin files needed for the commodity lifecycle project
+  This script will downloaded the current .bin files needed for the commodity lifecycle project, create a virtual environment for Python and install needed libraries for commodity lifecycle project.
 
 .NOTES
-  Version:        2.0
+  Version:        2.1
   Author:         Derek Anderson
   Creation Date:  2/19/2021
   Purpose/Change: Initial script development
@@ -23,15 +23,15 @@ python -m venv .\POIT-toolkit-venv --upgrade-deps
 .\POIT-toolkit-venv\Scripts\activate
 ##
 ## Update PIP
-python -m pip install --upgrade pip
+.\POIT-toolkit-venv\Scripts\python -m pip install --upgrade pip
 ##
-pip install netmiko
+.\POIT-toolkit-venv\Scripts\python -m pip install netmiko
 ##
-pip install pyserial
+.\POIT-toolkit-venv\Scripts\python -m pip install pyserial
 ##
-pip install urllib3
+.\POIT-toolkit-venv\Scripts\python -m pip install urllib3
 ##
-pip install PySimpleGUI
+.\POIT-toolkit-venv\Scripts\python -m pip install PySimpleGUI
 ##
 ## Create md5 test files
 New-Item .\httpServerFiles\MD5Files -ItemType Directory
