@@ -1,0 +1,19 @@
+##  SSM Install script
+
+$install = {
+    $code = "pYkjaiqWzx611KnQBc4D"
+    $id = "bb70c64c-402d-499e-bea8-efd9dddaedf6"
+    $region = "us-west-2"
+    $dir = $env:TEMP + "\ssm"
+    New-Item -ItemType directory -Path $dir -Force
+    Set-Location $dir
+    (New-Object System.Net.WebClient).DownloadFile("https://amazon-ssm-$region.s3.$region.amazonaws.com/latest/windows_amd64/AmazonSSMAgentSetup.exe", $dir + "\AmazonSSMAgentSetup.exe")
+    Start-Process .\AmazonSSMAgentSetup.exe -ArgumentList @("/q", "/log", "install.log", "CODE=$code", "ID=$id", "REGION=$region") -Wait
+    Get-Content ($env:ProgramData + "\Amazon\SSM\InstanceData\registration")
+    Get-Service -Name "AmazonSSMAgent" }
+    
+    
+$computers = Get-Content ".\computers.txt"
+foreach ($comp in $computers) {
+    Invoke-Command -ComputerName $comp -ScriptBlock $install | Out-File -FilePath ".\ssmAgent.txt" -Append -ErrorAction SilentlyContinue
+}
