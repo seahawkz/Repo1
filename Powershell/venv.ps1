@@ -1,12 +1,12 @@
 ﻿## Update PIP
 python -m pip install --upgrade pip
 ##
-cd $env:USERPROFILE\Documents\
+Set-Location $env:USERPROFILE\Documents\
 ##
 ##mkdir PyBox 
 New-Item .\Pybox -ItemType Directory
 ##
-cd .\PyBox
+Set-Location .\PyBox
 New-Item .\logfiles -ItemType Directory
 New-Item .\httpServerFiles -ItemType Directory
 ##
@@ -23,6 +23,6 @@ pip install pyserial
 pip install urllib3
 ##
 ##
-cd .\httpServerFiles
+Set-Location .\httpServerFiles
 wget http://narf-cloudfront.aka.amazon.com/device_images/cat9k_lite_iosxe.16.12.03a.SPA.bin -OutFile cat9k_lite_iosxe.16.12.03a.SPA.bin
 wget http://narf-cloudfront.aka.amazon.com/device_images/cat9k_iosxe.V169_3_ES2.SPA.bin -OutFile cat9k_iosxe.V169_3_ES2.SPA.bin
