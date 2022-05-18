@@ -1,0 +1,193 @@
+---
+# variable file
+issues: |
+  Climate Network Logon Notice
+
+  This system and any Bayer and affiliate systems and networks
+  it is connected to contain confidential and copyrighted
+  information.  Access to the systems and networks is limited
+  to authorized users only and only for approved business
+  purposes in accordance with the Company’s Information
+  Security policies and standards which may be found on the
+  Company Intranet, or obtained from the Climate Security
+  Office.
+
+  Anyone obtaining access to and using the systems and
+  networks acknowledges that all information contained on
+  them, including but not limited to electronic mail, word
+  processing, directories and files, constitutes private
+  property belonging to the Company.
+
+  Anyone using or viewing this system is further advised
+  that the use of the system and the systems and networks
+  it is connected to may be recorded and the information
+  contained therein may be monitored, retrieved and reviewed
+  if, in the Company’s sole discretion, there is a business
+  reason to do so. If improper activity or use is suspected,
+  all available information may be used by the Company for
+  possible disciplinary action, prosecution, civil claim
+  or any remedy or lawful purpose.
+iteng: |
+  %it-eng@corp.climate.com        ALL=(ALL:ALL)   ALL
+  %Splunk\ Admins@corp.climate.com        ALL=(ALL:ALL) ALL
+sshdconf: |
+  #       $OpenBSD: sshd_config,v 1.100 2016/08/15 12:32:04 naddy Exp $
+
+  # This is the sshd server system-wide configuration file.  See
+  # sshd_config(5) for more information.
+
+  # This sshd was compiled with PATH=/usr/local/bin:/usr/bin
+
+  # The strategy used for options in the default sshd_config shipped with
+  # OpenSSH is to specify options with their default value where
+  # possible, but leave them commented.  Uncommented options override the
+  # default value.
+
+  # If you want to change the port on a SELinux system, you have to tell
+  # SELinux about this change.
+  # semanage port -a -t ssh_port_t -p tcp #PORTNUMBER
+  #
+  #Port 22
+  #AddressFamily any
+  #ListenAddress 0.0.0.0
+  #ListenAddress ::
+
+  HostKey /etc/ssh/ssh_host_rsa_key
+  #HostKey /etc/ssh/ssh_host_dsa_key
+  HostKey /etc/ssh/ssh_host_ecdsa_key
+  HostKey /etc/ssh/ssh_host_ed25519_key
+
+  # Ciphers and keying
+  #RekeyLimit default none
+
+  # Logging
+  #SyslogFacility AUTH
+  SyslogFacility AUTHPRIV
+  #LogLevel INFO
+
+  # Authentication:
+
+  #LoginGraceTime 2m
+  #PermitRootLogin yes
+  #StrictModes yes
+  #MaxAuthTries 6
+  #MaxSessions 10
+
+  #PubkeyAuthentication yes
+
+  # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
+  # but this is overridden so installations will only check .ssh/authorized_keys
+  AuthorizedKeysFile .ssh/authorized_keys
+
+  #AuthorizedPrincipalsFile none
+
+
+  # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
+  #HostbasedAuthentication no
+  # Change to yes if you don't trust ~/.ssh/known_hosts for
+  # HostbasedAuthentication
+  #IgnoreUserKnownHosts no
+  # Don't read the user's ~/.rhosts and ~/.shosts files
+  #IgnoreRhosts yes
+
+  # To disable tunneled clear text passwords, change to no here!
+  #PasswordAuthentication yes
+  #PermitEmptyPasswords no
+  PasswordAuthentication yes
+
+  # Change to no to disable s/key passwords
+  #ChallengeResponseAuthentication yes
+  ChallengeResponseAuthentication no
+
+  # Kerberos options
+  KerberosAuthentication yes
+  #KerberosOrLocalPasswd yes
+  KerberosTicketCleanup yes
+  #KerberosGetAFSToken no
+  #KerberosUseKuserok yes
+
+  # GSSAPI options
+  GSSAPIAuthentication yes
+  GSSAPICleanupCredentials yes
+  #GSSAPIStrictAcceptorCheck yes
+  #GSSAPIKeyExchange no
+  #GSSAPIEnablek5users no
+
+  # Set this to 'yes' to enable PAM authentication, account processing,
+  # and session processing. If this is enabled, PAM authentication will
+  # be allowed through the ChallengeResponseAuthentication and
+  # PasswordAuthentication.  Depending on your PAM configuration,
+  # PAM authentication via ChallengeResponseAuthentication may bypass
+  # the setting of "PermitRootLogin without-password".
+  # If you just want the PAM account and session checks to run without
+  # PAM authentication, then enable this but set PasswordAuthentication
+  # and ChallengeResponseAuthentication to 'no'.
+  # WARNING: 'UsePAM no' is not supported in Red Hat Enterprise Linux and may cause several
+  # problems.
+  UsePAM yes
+
+  #AllowAgentForwarding yes
+  #AllowTcpForwarding yes
+  #GatewayPorts no
+  X11Forwarding yes
+  #X11DisplayOffset 10
+  #X11UseLocalhost yes
+  #PermitTTY yes
+  #PrintMotd yes
+  #PrintLastLog yes
+  #TCPKeepAlive yes
+  #UseLogin no
+  #UsePrivilegeSeparation sandbox
+  #PermitUserEnvironment no
+  #Compression delayed
+  #ClientAliveInterval 0
+  #ClientAliveCountMax 3
+  #ShowPatchLevel no
+  #UseDNS yes
+  #PidFile /var/run/sshd.pid
+  #MaxStartups 10:30:100
+  #PermitTunnel no
+  #ChrootDirectory none
+  #VersionAddendum none
+
+  # no default banner path
+  Banner /etc/issue.net
+
+  # Accept locale-related environment variables
+  AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+  AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+  AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+  AcceptEnv XMODIFIERS
+
+  # override default of no subsystems
+  Subsystem sftp  /usr/libexec/openssh/sftp-server
+
+  # Example of overriding settings on a per-user basis
+  #Match User anoncvs
+  #       X11Forwarding no
+  #       AllowTcpForwarding no
+  #       PermitTTY no
+  #       ForceCommand cvs server
+
+  AuthorizedKeysCommand /usr/bin/timeout 5s /opt/aws/bin/curl_authorized_keys %u %f
+  AuthorizedKeysCommandUser ec2-instance-connect
+sssd: |
+  [sssd]
+  domains = corp.climate.com
+  config_file_version = 2
+  services = nss, pam
+
+  [domain/corp.climate.com]
+  ad_domain = corp.climate.com
+  krb5_realm = CORP.CLIMATE.COM
+  realmd_tags = manages-system joined-with-samba
+  cache_credentials = True
+  id_provider = ad
+  auth_provider = krb5
+  krb5_store_password_if_offline = True
+  default_shell = /bin/bash
+  ldap_id_mapping = True
+  use_fully_qualified_names = False
+  fallback_homedir = /home/%u
+  access_provider = ad
+  ad_access_filter = (memberOf=CN=it-eng,OU=PosixGroups,OU=CorpGroups,DC=corp,DC=climate,DC=com)

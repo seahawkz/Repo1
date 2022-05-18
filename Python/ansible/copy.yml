@@ -1,0 +1,30 @@
+---
+- name: Copy files
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: Set INSTANCE_ID
+      uri:
+        url: http://169.254.169.254/latest/meta-data/instance-id
+        return_content: yes
+      register: instance_id
+
+    - set_fact: INSTANCE_ID={{ instance_id.content }}
+
+    - name: Set REGION
+      uri:
+        url: http://169.254.169.254/latest/meta-data/placement/availability-zone
+        return_content: yes
+      register: region
+
+    - set_fact: REGION={{ region.content }}
+
+    - ec2_metadata_facts:
+    - ec2_instance_facts:
+        instance_id: '{{ ansible_ec2_instance_id }}'
+        region:  '{{ ansible_ec2_placement_region }}'
+      register: my_instance
+    - debug:
+        msg: my tags {{ my_instance.tags }}

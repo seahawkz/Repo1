@@ -1,0 +1,139 @@
+---
+- name: Enable SSH
+  hosts: 127.0.0.1
+  become: yes
+  gather_facts: True
+
+    # vars_prompt:
+    #- name: "bind_password"
+    #  prompt: "Password for derek.anderson@corp.climate.com"
+    #  private: yes
+
+  vars:
+    TAG_NAME: "Name"
+  
+  vars_files:
+    - ./vars.yml
+  
+  tasks:
+    
+    - name: Set INSTANCE_ID
+      uri:
+        url: http://169.254.169.254/latest/meta-data/instance-id
+        return_content: yes
+      register: instance_id
+
+    - set_fact: INSTANCE_ID={{ instance_id.content }}
+
+    - name: Set REGION
+      uri:
+        url: http://169.254.169.254/latest/meta-data/placement/availability-zone
+        return_content: yes
+      register: region
+
+    - set_fact: REGION={{ region.content }}
+
+    - ec2_metadata_facts:
+    - ec2_instance_info:
+        instance_ids: '{{ ansible_ec2_instance_id }}'
+        region: '{{ ansible_ec2_placement_region }}'
+      register: my_instance
+      delegate_to: localhost
+    
+    - set_fact: TAG_VALUE={{ my_instance.instances | map(attribute='tags.Name') | list | join('\n') }}
+
+    - debug:
+        msg: "TAG_NAME = {{ TAG_NAME }}, INSTANCE_ID = {{ INSTANCE_ID }}, REGION = {{ REGION }}, TAG_VALUE = {{ TAG_VALUE }}"
+
+    - set_fact: nodenameis={{ TAG_VALUE }}.corp.climate.com
+
+    - debug:
+        msg: "Hostname = {{ nodenameis }}"
+
+    - name: get hostname
+      command: hostname
+      register: namecheck
+
+    - set_fact: hostnameis={{ namecheck.stdout }}
+
+    - name: Set /etc/hostname
+      shell: echo "{{ TAG_VALUE }}.corp.climate.com" > /etc/hostname
+      when: hostnameis != nodenameis
+
+    - name: Set hostname
+      shell: hostname -F /etc/hostname
+      when: hostnameis != nodenameis
+
+    - name: yum -y update
+      yum:
+        name: '*'
+        state: latest
+
+    - name: yum -y install sssd realmd krb5-workstation samba-common-tools adcli oddjob oddjob-mkhomedir
+      yum:
+        name:
+        - sssd
+        - realmd
+        - krb5-workstation
+        - samba-common-tools
+        - adcli
+        - oddjob
+        - oddjob-mkhomedir
+        - pip
+        state: latest
+
+    - name: Install pexpect
+      pip:
+        name: pexpect
+        state: latest
+
+    - name: Check domain status
+      shell: realm discover corp.climate.com | grep -q sssd
+      register: ad_status
+      changed_when: false
+
+    - name: Join to domain
+      expect:
+        command: realm join corp.climate.com --user=derek.anderson@corp.climate.com
+        responses:
+          Password.*: "{{ bind_password }}"
+      when: ad_status.rc != 0
+
+    - name: kinit
+      command: kinit
+      when: ad_status.rc != 0
+
+    - name: create issue.net
+      copy:
+        dest: "/etc/issue.net"
+        content: '{{ issues }}'
+        checksum:
+
+    - name: create iteng_sudoers
+      copy:
+        dest: "/etc/sudoers.d/iteng_sudoers"
+        content: '{{ iteng }}'
+        checksum:
+
+    - name: create sshd_config
+      copy:
+        dest: "/etc/ssh/sshd_config"
+        content: '{{ sshdconf }}'
+        checksum:
+
+    - name: create sssd.conf
+      copy:
+        dest: "/etc/sssd/sssd.conf"
+        content: '{{ sssd }}'
+        mode: 0600
+        checksum:
+
+    - name: systemctl restart sshd
+      systemd:
+        name: sshd
+        state: restarted
+
+    - name: restart sssd
+      systemd:
+        name: sssd
+        state: restarted

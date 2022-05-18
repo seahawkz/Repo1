@@ -1,0 +1,48 @@
+mkdir /tmp/baseline_setup/
+
+     aws s3 sync s3://iteng-ssm-distributor-corp-climate-com/scripts/files/ /tmp/baseline_setup/
+
+     mv /tmp/baseline_setup/issue.net /etc/
+
+     mv /tmp/baseline_setup/iteng_sudoers /etc/sudoers.d/
+
+     mv /tmp/baseline_setup/sshd_config /etc/ssh/sshd_config
+
+     mv /tmp/baseline_setup/sssd_conf /etc/sssd/sssd.conf
+
+   chmod 0600 /etc/sssd/sssd.conf
+
+systemctl restart sshd
+
+systemctl restart sssd
+
+rm -rf /tmp/baseline_setup
+
+
+
+
+
+TAG_NAME="Name"
+INSTANCE_ID="`wget -qO- http://169.254.169.254/latest/meta-data/instance-id`"
+REGION="`wget -qO- http://169.254.169.254/latest/meta-data/placement/availability-zone | sed -e 's:\([0-9][0-9]*\)[a-z]*\$:\\1:'`"
+TAG_VALUE="`aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=$TAG_NAME" --region $REGION --output=text | cut -f5`"
+echo "$TAG_VALUE.corp.climate.com" > /etc/hostname
+hostname -F /etc/hostname
+hostname
+yum -y update
+yum -y install sssd realmd krb5-workstation samba-common-tools adcli oddjob oddjob-mkhomedir
+realm join -U derek.anderson@corp.climate.com corp.climate.com
+kinit
+mkdir /tmp/baseline_setup/
+aws s3 sync s3://iteng-ssm-distributor-corp-climate-com/scripts/files/ /tmp/baseline_setup/
+mv /tmp/baseline_setup/issue.net /etc/
+mv /tmp/baseline_setup/iteng_sudoers /etc/sudoers.d/
+mv /tmp/baseline_setup/sshd_config /etc/ssh/sshd_config
+mv /tmp/baseline_setup/sssd_conf /etc/sssd/sssd.conf
+chmod 0600 /etc/sssd/sssd.conf
+systemctl restart sshd
+systemctl restart sssd
+
+
+
+aws ec2 describe-tags --filters "Name=resource-id,Values=i-0f12ba0996c9821d7" "Name=key,Values=Name" --region us-east-1a --output=text | cut -f5
